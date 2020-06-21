@@ -1,0 +1,30 @@
+{
+  "name": "node-vue-ordering",
+  "version": "1.0.0",
+  "description": "A online food ordering system build by Vue.js, Node.js, and Mongodb.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SHENG-X/node-vue-ordering.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SHENG-X/node-vue-ordering/issues"
+  },
+  "homepage": "https://github.com/SHENG-X/node-vue-ordering#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongodb": "^3.5.9",
+    "multer": "^1.4.2",
+    "socket.io": "^2.3.0",
+    "vue": "^2.6.11"
+  }
+}
