@@ -2,11 +2,13 @@
 .DS_Store
 node_modules
 dist
+mongo-volume
 
 # local env files
 .env
 .env.local
 .env.*.local
+db.env
 
 # Log files
 npm-debug.log*

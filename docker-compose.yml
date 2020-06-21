@@ -1,0 +1,22 @@
+version: '3.6'
+
+services:
+  # backend API
+  express-ordering:
+    container_name: express-ordering_backend
+    build: ./
+    command: node app.js
+    working_dir: /user/src/express-ordering
+  
+  # mongodb
+  mongodb:
+    container_name: express-ordering_mongodb
+    image: mongo
+    volumes:
+      - ./database/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./database/mongo-volume:/data/db
+    env_file:
+      - ./db.env
+    ports:
+      - '27017:27017'
+  
