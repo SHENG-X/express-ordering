@@ -1,22 +1,39 @@
-version: '3.6'
+version: '3'
 
 services:
   # backend API
   express-ordering:
     container_name: express-ordering_backend
     build: ./
-    command: node app.js
+    restart: always
     working_dir: /user/src/express-ordering
-  
+    volumes:
+      - ./app.js:/user/src/express-ordering/app.js
+      - ./util:/user/src/express-ordering/util
+      - ./database:/user/src/express-ordering/database
+    depends_on:
+      - express-database
+    env_file:
+      - ./.env
+    environment:
+      WAIT_HOSTS: 'express-database:${MONGO_PORT}'
+      MONGODB_URI: 'mongodb://${ROOT_USERNAME}:${ROOT_PASSWORD}@express-database:${MONGO_PORT}/${DATABASE_NAME}?authSource=admin'
+    
   # mongodb
-  mongodb:
+  express-database:
     container_name: express-ordering_mongodb
     image: mongo
+    restart: always
     volumes:
-      - ./database/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
       - ./database/mongo-volume:/data/db
     env_file:
-      - ./db.env
+      - ./.env
+    environment: 
+      MONGO_INITDB_DATABASE: ${DATABASE_NAME}
+      MONGO_INITDB_ROOT_USERNAME: ${ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${ROOT_PASSWORD}
     ports:
-      - '27017:27017'
+      - '${MONGO_PORT}:${MONGO_PORT}'
+      
+  
   
