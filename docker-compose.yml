@@ -37,6 +37,14 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${ROOT_PASSWORD}
     ports:
       - '${MONGO_PORT}:${MONGO_PORT}'
-      
-  
+
+  # frontend (temporarily: dev convenience purpose)
+  express-frontend:
+    container_name: express-ordering_frontend
+    build: ./frontend
+    volumes:
+      - ./frontend:/user/src/express-ordering_frontend
+    ports:
+      - '3000:3000'
+
   
