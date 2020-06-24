@@ -8,7 +8,9 @@ const bodyParser = require('body-parser');
 
 const { logger } = require('./util/helper');
 
-const port = process.env.PORT;
+const port = process.env.NODE_ENV === 'development-host' ? 
+             process.env.HOST_PORT : process.env.PORT;
+
 const app = express();
 
 app.use(cors());
