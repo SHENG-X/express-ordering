@@ -2,12 +2,12 @@
   <div id="app">
     <a-page-header
       class="header"
-      title="Express Ordering"
-      sub-title="xxx Restaurant"
+      :title="$t('company')"
+      :sub-title="$t('business')"
     >
       <template slot="extra">
-        <router-link to="/">Home</router-link>
-        <router-link to="/auth">Auth</router-link>
+        <router-link to="/">{{ $t('pages.home.label') }}</router-link>
+        <router-link to="/auth">{{ $t('pages.auth.label') }}</router-link>
       </template>
     </a-page-header>
     <router-view/>
