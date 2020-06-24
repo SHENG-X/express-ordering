@@ -10,23 +10,23 @@
         class="form"
       >
         <div class="account-exit">
-          <span>New to express ordering?</span>
+          <span>{{ $t('pages.auth.signIn.helper') }}</span>
           <a-button
             type="primary"
             @click="changeMode"
           >
-            Sign Up
+            {{ $t('pages.auth.signUp.label') }}
           </a-button>
         </div>
-        <a-form-model-item label="Email address">
+        <a-form-model-item :label="$t('pages.auth.email')">
           <a-input v-model="form.email" />
         </a-form-model-item>
-        <a-form-model-item label="Password">
+        <a-form-model-item :label="$t('pages.auth.password')">
           <a-input v-model="form.password" />
         </a-form-model-item>
         <a-form-model-item class="button-item">
           <a-button type="primary" @click="onSubmit">
-            Sign In
+            {{ $t('pages.auth.signIn.label') }}
           </a-button>
         </a-form-model-item>
       </a-form-model>

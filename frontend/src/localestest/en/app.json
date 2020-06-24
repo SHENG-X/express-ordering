@@ -1,0 +1,23 @@
+{
+  "company": "Express Ordering",
+  "business": "xxx Restaurant",
+  "pages": {
+    "home": "Home",
+    "auth": {
+      "label": "Auth",
+      "fname": "First Name",
+      "lname": "Last Name",
+      "phone": "Phone Number",
+      "email": "Email address",
+      "password": "Password",
+      "signIn": {
+        "label": "Sign In",
+        "helper": "New to express ordering ?"
+      },
+      "signUp": {
+        "label": "Sign Up",
+        "helper": "Already have an account ?"
+      }
+    }
+  }
+}

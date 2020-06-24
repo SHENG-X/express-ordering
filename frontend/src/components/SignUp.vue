@@ -10,34 +10,34 @@
         class="form"
       >
         <div class="account-exit">
-          <span>Already have an account?</span>
+          <span>{{ $t('pages.auth.signIn.helper') }}</span>
           <a-button
             @click="changeMode"
             type="primary"
           >
-            Sign In
+            {{ $t('pages.auth.signIn.label') }}
           </a-button>
         </div>
         <div class="name-container">
-          <a-form-model-item label="First name">
+          <a-form-model-item :label="$t('pages.auth.fname')">
             <a-input v-model="form.fname" />
           </a-form-model-item>
-          <a-form-model-item label="Last name">
+          <a-form-model-item :label="$t('pages.auth.lname')">
             <a-input v-model="form.lname" />
           </a-form-model-item>
         </div>
-        <a-form-model-item label="Phone number">
+        <a-form-model-item :label="$t('pages.auth.phone')">
           <a-input v-model="form.phone" />
         </a-form-model-item>
-        <a-form-model-item label="Email address">
+        <a-form-model-item :label="$t('pages.auth.email')">
           <a-input v-model="form.email"/>
         </a-form-model-item>
-        <a-form-model-item label="Password">
+        <a-form-model-item :label="$t('pages.auth.password')">
           <a-input v-model="form.password"/>
         </a-form-model-item>
         <a-form-model-item>
           <a-button type="primary" @click="onSubmit">
-            Sign Up
+            {{ $t('pages.auth.signUp.label') }}
           </a-button>
         </a-form-model-item>
       </a-form-model>
