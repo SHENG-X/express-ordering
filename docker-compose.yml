@@ -11,6 +11,7 @@ services:
       - ./app.js:/user/src/express-ordering/app.js
       - ./util:/user/src/express-ordering/util
       - ./database:/user/src/express-ordering/database
+      - ./api:/user/src/express-ordering/api
     depends_on:
       - express-database
     env_file:
