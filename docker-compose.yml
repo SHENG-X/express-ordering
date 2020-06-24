@@ -11,6 +11,7 @@ services:
       - ./app.js:/user/src/express-ordering/app.js
       - ./util:/user/src/express-ordering/util
       - ./database:/user/src/express-ordering/database
+      - ./api:/user/src/express-ordering/api
     depends_on:
       - express-database
     env_file:
@@ -18,7 +19,9 @@ services:
     environment:
       WAIT_HOSTS: 'express-database:${MONGO_PORT}'
       MONGODB_URI: 'mongodb://${ROOT_USERNAME}:${ROOT_PASSWORD}@express-database:${MONGO_PORT}/${DATABASE_NAME}?authSource=admin'
-    
+    ports:
+      - '8080:8080'
+      
   # mongodb
   express-database:
     container_name: express-ordering_mongodb
