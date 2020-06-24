@@ -3,12 +3,14 @@ require('dotenv').config({path: './.env'});
 
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const { logger } = require('./util/helper');
 
 const port = process.env.PORT;
 const app = express();
 
+app.use(cors());
 const options = {
   useNewUrlParser: true,
   reconnectTries: Number.MAX_VALUE,
