@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 
 const { logger } = require('./util/helper');
 const user = require('./api/rest/user');
+const auth = require('./api/rest/auth');
 
 const port = process.env.NODE_ENV === 'development-host' ? 
              process.env.HOST_PORT : process.env.PORT;
@@ -19,6 +20,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 app.use('/user', user);
+app.use('/auth', auth);
 
 const options = {
   useNewUrlParser: true,
@@ -31,7 +33,7 @@ let mongoUri = process.env.MONGODB_URI;
 if(process.env.NODE_ENV === 'development-host'){
   // running express directly on host machine
   // reset set mongodb connection uri
-  mongoUri = `mongodb://localhost:${process.env.MONGO_PORT}/${process.env.DATABASE_NAME}?authSource=admin`;
+  mongoUri = `mongodb://${process.env.ROOT_USERNAME}:${process.env.ROOT_PASSWORD}@localhost:${process.env.MONGO_PORT}/${process.env.DATABASE_NAME}?authSource=admin`;
 }
 
 mongoose.connect(mongoUri, options).then(() => {
