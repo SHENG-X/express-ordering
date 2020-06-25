@@ -33,7 +33,7 @@ let mongoUri = process.env.MONGODB_URI;
 if(process.env.NODE_ENV === 'development-host'){
   // running express directly on host machine
   // reset set mongodb connection uri
-  mongoUri = `mongodb://localhost:${process.env.MONGO_PORT}/${process.env.DATABASE_NAME}?authSource=admin`;
+  mongoUri = `mongodb://${process.env.ROOT_USERNAME}:${process.env.ROOT_PASSWORD}@localhost:${process.env.MONGO_PORT}/${process.env.DATABASE_NAME}?authSource=admin`;
 }
 
 mongoose.connect(mongoUri, options).then(() => {
