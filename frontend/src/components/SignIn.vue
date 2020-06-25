@@ -6,8 +6,10 @@
       :bordered="false"
     >
       <a-form-model
-        :model="form"
+        :model="user"
         class="form"
+        ref="ruleForm"
+        :rules="rules"
       >
         <div class="account-exit">
           <span>{{ $t('pages.auth.signIn.helper') }}</span>
@@ -18,14 +20,30 @@
             {{ $t('pages.auth.signUp.label') }}
           </a-button>
         </div>
-        <a-form-model-item :label="$t('pages.auth.email')">
-          <a-input v-model="form.email" />
+        <a-form-model-item
+          has-feedback
+          :label="$t('pages.auth.email')"
+          prop="email"
+        >
+          <a-input
+            type="email"
+            v-model="user.email"
+            placeholder="joedoe@gmail.com"
+          />
         </a-form-model-item>
-        <a-form-model-item :label="$t('pages.auth.password')">
-          <a-input v-model="form.password" />
+        <a-form-model-item
+          has-feedback
+          :label="$t('pages.auth.password')"
+          prop="password"
+        >
+          <a-input
+            type="password"
+            v-model="user.password"
+            placeholder="password"
+          />
         </a-form-model-item>
         <a-form-model-item class="button-item">
-          <a-button type="primary" @click="onSubmit">
+          <a-button type="primary" @click="handleSignIn">
             {{ $t('pages.auth.signIn.label') }}
           </a-button>
         </a-form-model-item>
@@ -35,15 +53,8 @@
 </template>
 
 <script>
-import axios from 'axios';
-
-const form = {
-  fname: '',
-  lname: '',
-  phone: '',
-  email: '',
-  password: '',
-};
+import { signIn } from '../apis/index';
+import { validateEmail, validatePassword } from '../util/validators';
 
 export default {
   props: {
@@ -54,27 +65,31 @@ export default {
   },
   data() {
     return {
-      form: { ...form },
+      user: {
+        email: '',
+        password: '',
+      },
+      rules: {
+        password: [
+          { validator: validatePassword, trigger: 'change' },
+        ],
+        email: [
+          { validator: validateEmail, trigger: 'change' },
+        ],
+      },
     };
   },
   methods: {
-    async onSubmit() {
-      try {
-        const response = await axios.post('http://localhost:8080/user', { ...this.form });
-        console.log(response);
-        if (response.status === 201) {
-          this.form = { ...form };
-          // TODO: user created load user id and redirect user to home page
+    async handleSignIn() {
+      this.$refs.ruleForm.validate(async (valid) => {
+        if (valid) {
+          const res = await signIn({ ...this.user });
+          console.log(res, this.user);
         } else {
-          // TODO: display error message.
+          console.log('error submit!!');
         }
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    onCancel() {
-      // reset form on cancel
-      this.form = { ...form };
+        return false;
+      });
     },
   },
 };

@@ -6,8 +6,10 @@
       :bordered="false"
     >
       <a-form-model
-        :model="form"
+        :model="user"
         class="form"
+        ref="ruleForm"
+        :rules="rules"
       >
         <div class="account-exit">
           <span>{{ $t('pages.auth.signIn.helper') }}</span>
@@ -19,24 +21,62 @@
           </a-button>
         </div>
         <div class="name-container">
-          <a-form-model-item :label="$t('pages.auth.fname')">
-            <a-input v-model="form.fname" />
+          <a-form-model-item
+            has-feedback
+            :label="$t('pages.auth.fname')"
+            prop="fname"
+          >
+            <a-input
+              v-model="user.fname"
+              placeholder="Joe"
+            />
           </a-form-model-item>
-          <a-form-model-item :label="$t('pages.auth.lname')">
-            <a-input v-model="form.lname" />
+          <a-form-model-item
+            has-feedback
+            :label="$t('pages.auth.lname')"
+            prop="lname"
+          >
+            <a-input
+              v-model="user.lname"
+              placeholder="Doe"
+            />
           </a-form-model-item>
         </div>
-        <a-form-model-item :label="$t('pages.auth.phone')">
-          <a-input v-model="form.phone" />
+        <a-form-model-item
+          has-feedback
+          :label="$t('pages.auth.phone')"
+          prop="phone"
+        >
+          <a-input
+            type="tel"
+            v-model="user.phone"
+            placeholder="2507671234"
+          />
         </a-form-model-item>
-        <a-form-model-item :label="$t('pages.auth.email')">
-          <a-input v-model="form.email"/>
+        <a-form-model-item
+          has-feedback
+          :label="$t('pages.auth.email')"
+          prop="email"
+        >
+          <a-input
+            type="email"
+            v-model="user.email"
+            placeholder="joedoe@gmail.com"
+          />
         </a-form-model-item>
-        <a-form-model-item :label="$t('pages.auth.password')">
-          <a-input v-model="form.password"/>
+        <a-form-model-item
+          has-feedback
+          :label="$t('pages.auth.password')"
+          prop="password"
+        >
+          <a-input
+            type="password"
+            v-model="user.password"
+            placeholder="password"
+          />
         </a-form-model-item>
         <a-form-model-item>
-          <a-button type="primary" @click="onSubmit">
+          <a-button type="primary" @click="handleSignUp">
             {{ $t('pages.auth.signUp.label') }}
           </a-button>
         </a-form-model-item>
@@ -46,15 +86,8 @@
 </template>
 
 <script>
-import axios from 'axios';
-
-const form = {
-  fname: '',
-  lname: '',
-  phone: '',
-  email: '',
-  password: '',
-};
+import { signUp } from '../apis/index';
+import { validateEmail, validatePassword, validatePhone } from '../util/validators';
 
 export default {
   props: {
@@ -65,27 +98,42 @@ export default {
   },
   data() {
     return {
-      form: { ...form },
+      user: {
+        fname: '',
+        lname: '',
+        phone: '',
+        email: '',
+        password: '',
+      },
+      rules: {
+        fname: [
+          { required: true, message: 'Please enter your first name', trigger: 'change' },
+        ],
+        lname: [
+          { required: true, message: 'Please enter your last name', trigger: 'change' },
+        ],
+        phone: [
+          { required: true, validator: validatePhone, trigger: 'change' },
+        ],
+        email: [
+          { required: true, validator: validateEmail, trigger: 'change' },
+        ],
+        password: [
+          { required: true, validator: validatePassword, trigger: 'change' },
+        ],
+      },
     };
   },
   methods: {
-    async onSubmit() {
-      try {
-        const response = await axios.post('http://localhost:8080/user', { ...this.form });
-        console.log(response);
-        if (response.status === 201) {
-          this.form = { ...form };
-          // TODO: user created load user id and redirect user to home page
+    async handleSignUp() {
+      this.$refs.ruleForm.validate(async (valid) => {
+        if (valid) {
+          const res = await signUp({ ...this.user });
+          console.log(res, this.user);
         } else {
-          // TODO: display error message.
+          console.log('error on sign up');
         }
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    onCancel() {
-      // reset form on cancel
-      this.form = { ...form };
+      });
     },
   },
 };
