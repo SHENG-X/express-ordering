@@ -1,8 +1,11 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
 const router = express.Router();
 
-const logger = require('../../util/helper');
+const { logger } = require('../../util/helper');
 const User = require('../../database/model/user');
+
+const saltRounds = 10;
 
 router.get('/', async (req, res) => {
   const email = req.query.email;
@@ -14,13 +17,15 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const user = new User({ ...req.body });
+  const encryptedPassword = await bcrypt.hashSync(req.body.password, saltRounds);
+  const user = new User({ ...req.body, password: encryptedPassword });
+  console.log(encryptedPassword);
   await user.save((err, doc) => {
     if (err) {
       logger.error(err);
       res.status(500).json(err);
     }
-    res.status(201).json(doc._doc);
+    res.status(201).json({...doc._doc, password: null});
   });
 });
 
