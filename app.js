@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 
 const { logger } = require('./util/helper');
 const user = require('./api/rest/user');
+const auth = require('./api/rest/auth');
 
 const port = process.env.NODE_ENV === 'development-host' ? 
              process.env.HOST_PORT : process.env.PORT;
@@ -19,6 +20,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 app.use('/user', user);
+app.use('/auth', auth);
 
 const options = {
   useNewUrlParser: true,
