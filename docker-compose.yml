@@ -38,6 +38,24 @@ services:
     ports:
       - '${MONGO_PORT}:${MONGO_PORT}'
 
+  # mongo express
+  mongo-express:
+    container_name: mongo-express
+    image: mongo-express
+    restart: always
+    depends_on:
+      - express-database
+    env_file:
+      - ./.env
+    environment:
+      ME_CONFIG_MONGODB_SERVER: express-ordering_mongodb
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${ROOT_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${ROOT_PASSWORD}
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGOEXPRESS_LOGIN}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGOEXPRESS_PASSWORD}
+    ports:
+      - "8086:8081"
+
   # frontend (temporarily: dev convenience purpose)
   express-frontend:
     container_name: express-ordering_frontend
