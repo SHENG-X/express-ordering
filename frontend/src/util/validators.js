@@ -1,3 +1,5 @@
+import { checkEmailExist } from '../apis/index';
+
 export const validateEmail = (rule, value, callback) => {
   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   if (value === '') {
@@ -28,6 +30,15 @@ export const validatePhone = (rule, value, callback) => {
     callback(new Error('Please enter a phone number'));
   } else if (!re.test(value)) {
     callback(new Error('Please enter a correct phone number'));
+  } else {
+    callback();
+  }
+};
+
+export const validateEmailExist = async (rule, value, callback) => {
+  const result = await checkEmailExist(value);
+  if (result) {
+    callback(new Error('Email was already existing in the system'));
   } else {
     callback();
   }

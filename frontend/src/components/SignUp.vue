@@ -87,7 +87,12 @@
 
 <script>
 import { signUp } from '../apis/index';
-import { validateEmail, validatePassword, validatePhone } from '../util/validators';
+import {
+  validateEmail,
+  validatePassword,
+  validatePhone,
+  validateEmailExist,
+} from '../util/validators';
 
 export default {
   props: {
@@ -117,6 +122,7 @@ export default {
         ],
         email: [
           { required: true, validator: validateEmail, trigger: 'change' },
+          { validator: validateEmailExist, trigger: 'change' },
         ],
         password: [
           { required: true, validator: validatePassword, trigger: 'change' },
