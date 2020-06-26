@@ -134,10 +134,12 @@ export default {
     async handleSignUp() {
       this.$refs.ruleForm.validate(async (valid) => {
         if (valid) {
-          const res = await signUp({ ...this.user });
-          console.log(res, this.user);
-        } else {
-          console.log('error on sign up');
+          const response = await signUp({ ...this.user });
+          if (response && response.status === 201) {
+            this.$router.push('/');
+          } else {
+            alert('An issue was occurred while creating a new account');
+          }
         }
       });
     },
