@@ -15,6 +15,11 @@ const routes = [
     name: 'Auth',
     component: () => import('../views/Auth.vue'),
   },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: () => import('../views/Dashboard.vue'),
+  },
 ];
 
 const router = new VueRouter({
