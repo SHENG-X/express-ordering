@@ -21,11 +21,9 @@ export const signIn = async ({ email, password }) => {
       email,
       password,
     });
-    if (response.status === 200) {
-      console.log('Sign In Success!!!');
-    }
+    return response;
   } catch (err) {
-    console.log(err);
+    return null;
   }
 };
 
@@ -44,10 +42,8 @@ export const signUp = async ({
       email,
       password,
     });
-    if (response.status === 201) {
-      console.log('Sign Up Success!!!');
-    }
+    return response;
   } catch (err) {
-    console.log(err);
+    return null;
   }
 };

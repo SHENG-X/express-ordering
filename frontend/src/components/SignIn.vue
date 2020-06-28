@@ -82,11 +82,14 @@ export default {
   methods: {
     async handleSignIn() {
       this.$refs.ruleForm.validate(async (valid) => {
+        this.error = false;
         if (valid) {
-          const res = await signIn({ ...this.user });
-          console.log(res, this.user);
-        } else {
-          console.log('error submit!!');
+          const response = await signIn({ ...this.user });
+          if (response && response.status === 200) {
+            this.$router.push('/');
+          } else {
+            alert('email or password wrong!');
+          }
         }
         return false;
       });

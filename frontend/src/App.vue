@@ -7,7 +7,13 @@
     >
       <template slot="extra">
         <router-link to="/">{{ $t('pages.home.label') }}</router-link>
-        <router-link to="/auth">{{ $t('pages.auth.label') }}</router-link>
+        <router-link
+          v-if="$store.state.user.admin"
+          to="/dashboard"
+        >
+          {{ 'Dashboard' }}
+        </router-link>
+        <router-link to="/auth">{{ 'Sign In' }}</router-link>
       </template>
     </a-page-header>
     <router-view/>
