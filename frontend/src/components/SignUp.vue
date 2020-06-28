@@ -183,6 +183,9 @@ export default {
       .name-container {
         display: flex;
         justify-content: space-between;
+        .ant-form-item{
+          width: 48%;
+        }
       }
       .ant-form-item-control {
         button {
