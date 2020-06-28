@@ -1,6 +1,9 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
 const User = require('../../database/model/user');
+const { translateUser } = require('../../util/helper'); 
 
 const router = express.Router();
 
@@ -10,7 +13,8 @@ router.post('/', async (req, res) => {
   if (user) {
     const valid = await bcrypt.compareSync(password, user.password);
     if (valid) {
-      return res.status(200).json({ ...user._doc, password: null });
+      const token = jwt.sign(translateUser(user), process.env.JWT_SECRET, { expiresIn: '6h' });
+      return res.status(200).json(token);
     }
   }
   return res.status(401).json('unauthorized');

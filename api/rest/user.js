@@ -1,8 +1,11 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
 const router = express.Router();
 
 const User = require('../../database/model/user');
+const { translateUser } = require('../../util/helper'); 
 
 const saltRounds = 10;
 
@@ -27,7 +30,8 @@ router.post('/', async (req, res) => {
       if (err) {
         res.status(500).json(err);
       }
-      res.status(201).json({...doc._doc, password: null});
+      const token = jwt.sign(translateUser(user), process.env.JWT_SECRET, { expiresIn: '6h' });
+      res.status(201).json(token);
     });
   }
 });
