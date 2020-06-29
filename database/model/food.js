@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const food = new Schema(
   {
-    previewImage: {
+    image: {
       type: String,
       default: '',
     },
