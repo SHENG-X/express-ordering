@@ -15,9 +15,23 @@ export const checkEmailExist = async (email) => {
   return exist;
 };
 
+export const signInByToken = async () => {
+  const token = localStorage.getItem('express-ordering/user');
+  try {
+    const response = await axios.post(`${endPoint}/user/sign-in`, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (err) {
+    return null;
+  }
+};
+
 export const signIn = async ({ email, password }) => {
   try {
-    const response = await axios.post(`${endPoint}/auth`, {
+    const response = await axios.post(`${endPoint}/user/sign-in`, {
       email,
       password,
     });

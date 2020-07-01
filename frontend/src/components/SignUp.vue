@@ -86,7 +86,10 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 import { signUp } from '../apis/index';
+import { saveToken } from '../util/token';
 import {
   validateEmail,
   validatePassword,
@@ -131,11 +134,16 @@ export default {
     };
   },
   methods: {
+    ...mapMutations([
+      'setUser',
+    ]),
     async handleSignUp() {
       this.$refs.ruleForm.validate(async (valid) => {
         if (valid) {
           const response = await signUp({ ...this.user });
           if (response && response.status === 201) {
+            this.setUser(response.data.user);
+            saveToken(response.data.token);
             this.$router.push('/');
           } else {
             alert('An issue was occurred while creating a new account');

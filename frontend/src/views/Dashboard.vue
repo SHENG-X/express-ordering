@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    Coming Soon
+    Dashboard Coming Soon
   </div>
 </template>
 
