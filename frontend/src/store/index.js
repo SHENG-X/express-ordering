@@ -5,15 +5,14 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    // TODO: redesign and use user data object
-    user: {
-      admin: false,
-    },
+    user: null,
   },
   mutations: {
+    setUser(state, user) {
+      state.user = user;
+    },
   },
   actions: {
-  },
-  modules: {
+
   },
 });

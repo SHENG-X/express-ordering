@@ -53,7 +53,10 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 import { signIn } from '../apis/index';
+import { saveToken } from '../util/token';
 import { validateEmail, validatePassword } from '../util/validators';
 
 export default {
@@ -80,12 +83,17 @@ export default {
     };
   },
   methods: {
+    ...mapMutations([
+      'setUser',
+    ]),
     async handleSignIn() {
       this.$refs.ruleForm.validate(async (valid) => {
         this.error = false;
         if (valid) {
           const response = await signIn({ ...this.user });
           if (response && response.status === 200) {
+            saveToken(response.data.token);
+            this.setUser(response.data.user);
             this.$router.push('/');
           } else {
             alert('email or password wrong!');
