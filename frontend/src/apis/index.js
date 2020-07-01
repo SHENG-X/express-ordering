@@ -17,7 +17,7 @@ export const checkEmailExist = async (email) => {
 
 export const signIn = async ({ email, password }) => {
   try {
-    const response = await axios.post(`${endPoint}/auth`, {
+    const response = await axios.post(`${endPoint}/user/sign-in`, {
       email,
       password,
     });
