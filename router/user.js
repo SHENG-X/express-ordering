@@ -1,7 +1,7 @@
 const express = require('express');
 const { body } = require('express-validator');
 
-const userService = require('../../services/userService');
+const userService = require('../services/userService');
 
 const router = express.Router();
 

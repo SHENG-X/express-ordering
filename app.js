@@ -7,7 +7,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const { logger } = require('./util/helper');
-const user = require('./api/rest/user');
+const user = require('./router/user');
 
 const port = process.env.NODE_ENV === 'development-host' ? 
              process.env.HOST_PORT : process.env.PORT;
