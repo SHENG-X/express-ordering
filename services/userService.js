@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 
 const userModel = require('../database/model/userModel');
@@ -7,18 +6,6 @@ const userModel = require('../database/model/userModel');
 const { signUser, verifyUser } = require('../util/userHelper');
 
 const saltRounds = 10;
-
-const translateResponseDate = (user) => {
-  const token = signUser(user);
-  return {
-    user: {
-      admin: user.admin,
-      fname: user.fname,
-      lname: user.lname,
-    },
-    token
-  }
-} 
 
 const exist = async (req, res) => {
   const error = validationResult(req);
