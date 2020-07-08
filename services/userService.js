@@ -3,7 +3,7 @@ const { validationResult } = require('express-validator');
 
 const userModel = require('../database/model/userModel');
 
-const { signUser, verifyUser } = require('../util/userHelper');
+const { verifyUser, translateUserResponse } = require('../util/userHelper');
 
 const saltRounds = 10;
 
@@ -28,7 +28,7 @@ const signIn = async (req, res) => {
     const decoded = await verifyUser(authToken);
     if (decoded) {
       const user = await userModel.findById(decoded.id);
-      return res.status(200).json(translateResponseDate(user));
+      return res.status(200).json(translateUserResponse(user));
     } else {
       return res.status(401).json('unauthorized');
     }
@@ -43,7 +43,7 @@ const signIn = async (req, res) => {
     if (user) {
       const valid = await bcrypt.compareSync(password, user.password);
       if (valid) {
-        return res.status(200).json(translateResponseDate(user));
+        return res.status(200).json(translateUserResponse(user));
       }
     }
     return res.status(401).json('unauthorized');
@@ -63,11 +63,12 @@ const signUp = async (req, res) => {
     } else {
       const encryptedPassword = await bcrypt.hashSync(req.body.password, saltRounds);
       const user = new userModel({ ...req.body, password: encryptedPassword });
-      await user.save((err, doc) => {
-        if (err) {
-          res.status(500).json(err);
+      await user.save((error, doc) => {
+        if (error) {
+          res.status(500).json(error);
+        } else {
+          res.status(201).json(translateUserResponse(user));
         }
-        res.status(201).json(translateResponseDate(user));
       });
     }
   }
