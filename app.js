@@ -20,6 +20,10 @@ app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+// directly expose all uploaded image from 
+// the assets folder
+app.use('/assets', express.static('assets'));
+
 // api end point for user management
 app.use('/user', user);
 
