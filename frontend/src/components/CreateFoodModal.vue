@@ -56,6 +56,7 @@
             list-type="picture-card"
             @preview="handlePreview"
             @change="handleChange"
+            accept=".jpg, .jpeg, .png"
           >
             <div v-if="fileList.length < 1">
               <a-icon type="plus" />
