@@ -38,7 +38,7 @@
 
 <script>
 import { mapMutations } from 'vuex';
-import { signInByToken } from './services';
+import { signInByToken } from './services/userService';
 import { removeToken } from './util/token';
 
 export default {

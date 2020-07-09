@@ -55,7 +55,7 @@
 <script>
 import { mapMutations } from 'vuex';
 
-import { signIn } from '../services/index';
+import { signIn } from '../services/userService';
 import { saveToken } from '../util/token';
 import { validateEmail, validatePassword } from '../util/validators';
 

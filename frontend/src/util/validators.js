@@ -1,4 +1,4 @@
-import { checkEmailExist } from '../services/index';
+import { checkEmailExist } from '../services/userService';
 
 export const validateEmail = (rule, value, callback) => {
   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -36,10 +36,14 @@ export const validatePhone = (rule, value, callback) => {
 };
 
 export const validateEmailExist = async (rule, value, callback) => {
-  const result = await checkEmailExist(value);
-  if (result) {
-    callback(new Error('Email was already existing in the system'));
-  } else {
-    callback();
+  try {
+    const response = await checkEmailExist(value);
+    if (response.status) {
+      callback();
+    }
+  } catch (error) {
+    if (error.response.status === 409) {
+      callback(new Error('Email was already existing in the system'));
+    }
   }
 };

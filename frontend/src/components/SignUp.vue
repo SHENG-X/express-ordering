@@ -88,7 +88,7 @@
 <script>
 import { mapMutations } from 'vuex';
 
-import { signUp } from '../services/index';
+import { signUp } from '../services/userService';
 import { saveToken } from '../util/token';
 import {
   validateEmail,
