@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const { logger } = require('./util/helper');
 const user = require('./router/user');
 const food = require('./router/food');
+const picture = require('./router/picture');
 
 const port = process.env.NODE_ENV === 'development-host' ? 
              process.env.HOST_PORT : process.env.PORT;
@@ -21,6 +22,9 @@ app.use(bodyParser.json());
 
 app.use('/user', user);
 app.use('/food', food);
+
+// api end point for uploading an image
+app.use('/picture', picture);
 
 const options = {
   useNewUrlParser: true,
