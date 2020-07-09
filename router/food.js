@@ -1,14 +1,14 @@
 const express = require('express');
-const foodServices = require('../services/foodService');
+const foodService = require('../services/foodService');
 
 const router = express.Router();
 
-router.get('/', foodServices.getFood);
+router.get('/', foodService.getFood);
 
-router.post('/', foodServices.createFood);
+router.post('/', foodService.createFood);
 
-router.put('/', foodServices.updateFood);
+router.put('/', foodService.updateFood);
 
-router.delete('/', foodServices.deleteFood);
+router.delete('/', foodService.deleteFood);
 
 module.exports = router;
