@@ -20,7 +20,10 @@ app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+// api end point for user management
 app.use('/user', user);
+
+// api end point for food management
 app.use('/food', food);
 
 // api end point for uploading an image
