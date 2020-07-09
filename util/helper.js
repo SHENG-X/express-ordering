@@ -42,14 +42,6 @@ logger.error = (...args) => {
   console.log(colors.BgRed, '##################### END #####################', colors.Reset);
 }
 
-const translateUser = (user) => {
-  return {
-    id: user.id,
-    admin: user.admin
-  };
-}
-
 module.exports = {
   logger,
-  translateUser,
 }

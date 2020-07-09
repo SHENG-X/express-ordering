@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+
     <a-page-header
       class="header"
       :title="$t('company')"
@@ -27,13 +28,17 @@
         </a>
       </template>
     </a-page-header>
-    <router-view/>
+
+    <div class="main">
+      <router-view/>
+    </div>
+
   </div>
 </template>
 
 <script>
 import { mapMutations } from 'vuex';
-import { signInByToken } from './apis';
+import { signInByToken } from './services';
 import { removeToken } from './util/token';
 
 export default {
@@ -57,21 +62,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.header{
-  border: 1px solid rgb(235, 237, 240);
-}
-.ant-page-header-heading-extra {
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    font-size: 18px;
-    &:hover {
-      cursor: pointer;
-    }
+#app {
+  height: 100%;
+  .header {
+    border-bottom: 1px solid rgb(235, 237, 240);
+  }
+  .ant-page-header-heading-extra {
+    a {
+      font-weight: bold;
+      color: #2c3e50;
+      font-size: 18px;
+      &:hover {
+        cursor: pointer;
+      }
 
-    &.router-link-exact-active {
-      color: #1890ff;
+      &.router-link-exact-active {
+        color: #1890ff;
+      }
     }
+  }
+  .main {
+    height: calc(100% - 65px);
   }
 }
 </style>

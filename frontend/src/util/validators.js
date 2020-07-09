@@ -1,4 +1,4 @@
-import { checkEmailExist } from '../apis/index';
+import { checkEmailExist } from '../services/index';
 
 export const validateEmail = (rule, value, callback) => {
   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
