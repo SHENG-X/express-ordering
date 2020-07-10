@@ -28,7 +28,7 @@ const createFood = (req, res) => {
     if (error) {
       res.status(500).json(error);
     } else {
-      res.send(201).json(food);
+      res.status(201).json(food);
     }
   });
 }
