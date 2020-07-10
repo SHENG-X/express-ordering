@@ -3,6 +3,7 @@
 node_modules
 dist
 mongo-volume
+assets
 
 # local env files
 .env

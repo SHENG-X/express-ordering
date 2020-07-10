@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const { logger } = require('./util/helper');
 const user = require('./router/user');
 const food = require('./router/food');
+const picture = require('./router/picture');
 
 const port = process.env.NODE_ENV === 'development-host' ? 
              process.env.HOST_PORT : process.env.PORT;
@@ -19,8 +20,18 @@ app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+// directly expose all uploaded image from 
+// the assets folder
+app.use('/assets', express.static('assets'));
+
+// api end point for user management
 app.use('/user', user);
+
+// api end point for food management
 app.use('/food', food);
+
+// api end point for uploading an image
+app.use('/picture', picture);
 
 const options = {
   useNewUrlParser: true,
