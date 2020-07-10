@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <a-list bordered :data-source="food">
       <a-list-item slot="renderItem" slot-scope="item">
         <div>
@@ -38,4 +38,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.container {
+  height: 100%;
+  .ant-list {
+    height: 100%;
+  }
+}
 </style>

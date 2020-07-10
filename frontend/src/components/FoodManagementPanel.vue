@@ -69,6 +69,7 @@ export default {
       width: 100%;
       height: 100%;
       background: white;
+      overflow: auto;
     }
     .create-food {
       top: -56px;
