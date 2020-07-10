@@ -1,16 +1,21 @@
 <template>
-  <div>
-    <a-list bordered :data-source="foods">
+  <div class="container">
+    <a-list bordered :data-source="food">
       <a-list-item slot="renderItem" slot-scope="item">
-        <div>{{ item.picture }}</div>
+        <div>
+          <img :src="`http://localhost:8081/assets/${item.image}`" width="60px"/>
+        </div>
         <div>{{ item.name }}</div>
         <div>{{ item.description }}</div>
-        <div>{{ item.price }}</div>
+        <div>$ {{ item.price }}</div>
         <div>
           <a-button type="primary">
             Edit
           </a-button>
-          <a-button type="danger">
+          <a-button
+            type="danger"
+            @click="() => deleteSingleFood(item._id)"
+          >
             Delete
           </a-button>
         </div>
@@ -20,33 +25,38 @@
 </template>
 
 <script>
+import { getFood, deleteFood } from '@/services/foodService';
+
 export default {
   data() {
     return {
-      foods: [
-        {
-          name: 'food 1',
-          description: 'description',
-          price: '3.22',
-          picture: 'image-here',
-        },
-        {
-          name: 'food 2',
-          description: 'description',
-          price: '3.22',
-          picture: 'image-here',
-        },
-        {
-          name: 'food 3',
-          description: 'description',
-          price: '3.22',
-          picture: 'image-here',
-        },
-      ],
+      food: [],
     };
+  },
+  async created() {
+    const food = await getFood();
+    this.food = food.data;
+  },
+  methods: {
+    async deleteSingleFood(id) {
+      try {
+        await deleteFood(id);
+      } catch (error) {
+        console.log(error.response);
+        if (error.response.status === 404) {
+          this.food = this.food.filter((food) => food._id !== error.response.data);
+        }
+      }
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.container {
+  height: 100%;
+  .ant-list {
+    height: 100%;
+  }
+}
 </style>

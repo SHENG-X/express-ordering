@@ -13,8 +13,7 @@
       </a-layout-sider>
       <a-layout>
         <a-layout-content>
-          <create-food-modal/>
-          <!-- <food-list/> -->
+          <food-management-panel/>
         </a-layout-content>
       </a-layout>
     </a-layout>
@@ -22,13 +21,11 @@
 </template>
 
 <script>
-import CreateFoodModal from '@/components/CreateFoodModal.vue';
-// import FoodList from '@/components/FoodList.vue';
+import FoodManagementPanel from '@/components/FoodManagementPanel.vue';
 
 export default {
   components: {
-    CreateFoodModal,
-    // FoodList,
+    FoodManagementPanel,
   },
   data() {
     return {
