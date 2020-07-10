@@ -10,3 +10,5 @@ export const getFood = (fid) => {
 export const createFood = (food) => service.post('/food', { ...food });
 
 export const updateFood = (food) => service.put('/food', { ...food });
+
+export const deleteFood = (id) => service.delete('/food', { data: { _id: id } });

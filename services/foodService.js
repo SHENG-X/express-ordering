@@ -39,6 +39,12 @@ const updateFood = (req, res) => {
 
 const deleteFood = (req, res) => {
   // delete a food
+  foodModel.deleteOne(req.body, (error) => {
+    if (error) {
+      return res.status(500).json(error);
+    }
+    res.status(404).json(req.body._id);
+  })
 }
 
 module.exports = {

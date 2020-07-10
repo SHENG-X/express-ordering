@@ -12,7 +12,10 @@
           <a-button type="primary">
             Edit
           </a-button>
-          <a-button type="danger">
+          <a-button
+            type="danger"
+            @click="() => deleteSingleFood(item._id)"
+          >
             Delete
           </a-button>
         </div>
@@ -22,7 +25,7 @@
 </template>
 
 <script>
-import { getFood } from '@/services/foodService';
+import { getFood, deleteFood } from '@/services/foodService';
 
 export default {
   data() {
@@ -33,6 +36,18 @@ export default {
   async created() {
     const food = await getFood();
     this.food = food.data;
+  },
+  methods: {
+    async deleteSingleFood(id) {
+      try {
+        await deleteFood(id);
+      } catch (error) {
+        console.log(error.response);
+        if (error.response.status === 404) {
+          this.food = this.food.filter((food) => food._id !== error.response.data);
+        }
+      }
+    },
   },
 };
 </script>
