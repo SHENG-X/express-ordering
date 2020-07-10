@@ -72,8 +72,18 @@
       </a-form-model-item>
 
       <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
-        <a-button type="primary" @click="onSubmit">
+        <a-button
+          type="primary"
+          :style="{'margin-right': '12px'}"
+          @click="onSubmit"
+        >
           Create
+        </a-button>
+        <a-button
+          type="danger"
+          @click="closeModal"
+        >
+          Cancel
         </a-button>
       </a-form-model-item>
 
@@ -86,6 +96,12 @@ import getBase64 from '@/util';
 import { createFood } from '@/services/foodService';
 
 export default {
+  props: {
+    closeModal: {
+      type: Function,
+      default: () => {},
+    },
+  },
   data() {
     return {
       labelCol: { span: 4 },
@@ -103,10 +119,8 @@ export default {
   },
   methods: {
     async onSubmit() {
-      console.log('onSubmit', this.food);
-      debugger;
-      const response = await createFood(this.food);
-      console.log('response', response);
+      await createFood(this.food);
+      this.closeModal();
     },
     handleCancel() {
       this.previewVisible = false;
@@ -130,6 +144,8 @@ export default {
 
 <style lang="scss" scoped>
 .create-food-modal {
+  width: 100%;
+  height: 100%;
   .ant-input-number {
     width: 50%;
     min-width: 132px;
