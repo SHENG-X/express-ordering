@@ -37,6 +37,19 @@ const createFood = (req, res) => {
 
 const updateFood = (req, res) => {
   // update a food info
+  foodModel.findById(req.body._id, (error, food) => {
+    if (error) {
+      return res.status(500).json(error);
+    }
+    // replace all original values with new values
+    food.overwrite({ ...req.body });
+    food.save((error, food) => {
+      if (error) {
+        return res.status(500).json(error);
+      }
+      return res.status(200).json(food);
+    });
+  }); 
 }
 
 const deleteFood = (req, res) => {
