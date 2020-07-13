@@ -4,7 +4,7 @@
       <div>Food List</div>
       <div>
         <a-button
-          @click="modalVisible = !modalVisible"
+          @click="createVisible = !createVisible"
         >
           Add
         </a-button>
@@ -13,16 +13,27 @@
     <div class="content">
       <div
         class="food-list"
-        v-if="!modalVisible"
+        v-if="!createVisible && !updateVisible"
       >
-        <food-list/>
+        <food-list
+          :setCurrentFood="setCurrentFood"
+        />
       </div>
       <div
         class="create-food"
-        v-else
+        v-else-if="createVisible && !updateVisible"
       >
         <create-food-modal
-          :closeModal="() => {modalVisible = !modalVisible}"
+          :closeModal="() => {createVisible = !createVisible}"
+        />
+      </div>
+      <div
+        class="update-food"
+        v-else-if="!createVisible && updateVisible"
+      >
+        <update-food-modal
+          :food="currentFood"
+          :closeModal="() => {updateVisible = !updateVisible}"
         />
       </div>
     </div>
@@ -32,18 +43,27 @@
 <script>
 import FoodList from './FoodList.vue';
 import CreateFoodModal from './CreateFoodModal.vue';
+import UpdateFoodModal from './UpdateFoodModal.vue';
 
 export default {
   components: {
     FoodList,
     CreateFoodModal,
+    UpdateFoodModal,
   },
   data() {
     return {
-      modalVisible: false,
+      createVisible: false,
+      updateVisible: false,
+      currentFood: null,
     };
   },
-
+  methods: {
+    setCurrentFood(food) {
+      this.currentFood = food;
+      this.updateVisible = true;
+    },
+  },
 };
 </script>
 
@@ -71,7 +91,7 @@ export default {
       background: white;
       overflow: auto;
     }
-    .create-food {
+    .create-food, .update-food {
       top: -56px;
       padding-top: 56px;
       height: calc(100% + 56px);
