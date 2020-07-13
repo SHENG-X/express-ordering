@@ -26,7 +26,7 @@ const getFood = (req, res) => {
 const createFood = (req, res) => {
   // create a new food
   const food = new foodModel({...req.body});
-  return food.save((error, doc) => {
+  return food.save((error, food) => {
     if (error) {
       res.status(500).json(error);
     } else {
