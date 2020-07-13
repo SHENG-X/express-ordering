@@ -1,4 +1,6 @@
 const foodModel = require('../database/model/foodModel');
+const fs = require('fs');
+const path = require('path');
 
 const getFood = (req, res) => {
   // get a food detail by id
@@ -43,8 +45,19 @@ const deleteFood = (req, res) => {
     if (error) {
       return res.status(500).json(error);
     }
+    try {
+      // remove saved image file on delete
+      // use path package to find the absolute path to the image file
+      const imgPath = path.join(__dirname, `../assets/${req.body.image}`);
+      // remove image file
+      fs.unlinkSync(imgPath);
+    } catch(error) {
+      // just log out error on the server side, not feedback to user
+      // on whether the image was removed on the server side.
+      console.log(error);
+    }
     res.status(404).json(req.body._id);
-  })
+  });
 }
 
 module.exports = {
