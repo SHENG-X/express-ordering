@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const { logger } = require('./util/helper');
 const user = require('./router/user');
 const food = require('./router/food');
+const category = require('./router/category');
 const picture = require('./router/picture');
 
 const port = process.env.NODE_ENV === 'development-host' ? 
@@ -29,6 +30,9 @@ app.use('/user', user);
 
 // api end point for food management
 app.use('/food', food);
+
+// api end point for food category management
+app.use('/category', category);
 
 // api end point for uploading an image
 app.use('/picture', picture);
