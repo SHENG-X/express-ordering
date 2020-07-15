@@ -13,13 +13,13 @@
     <div class="content">
       <div
         class="category-list"
-        v-if="!createVisible && !getCurrent"
+        v-if="!createVisible && !getCurrentCategory"
       >
         <category-list/>
       </div>
       <div
         class="create-category"
-        v-else-if="createVisible && !getCurrent"
+        v-else-if="createVisible && !getCurrentCategory"
       >
         <create-category-modal
           :closeModal="() => {createVisible = !createVisible}"
@@ -27,7 +27,7 @@
       </div>
       <div
         class="update-category"
-        v-else-if="!createVisible && getCurrent"
+        v-else-if="!createVisible && getCurrentCategory"
       >
         <update-category-modal/>
       </div>
@@ -54,7 +54,7 @@ export default {
   },
   computed: {
     ...mapGetters('categoryModule', [
-      'getCurrent',
+      'getCurrentCategory',
     ]),
   },
 };

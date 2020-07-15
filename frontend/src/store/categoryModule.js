@@ -16,7 +16,7 @@ const categoryModule = {
       // set category list
       state.category = category;
     },
-    setCurrent(state, category) {
+    setCurrentCategory(state, category) {
       // set current selected category
       state.current = category;
     },
@@ -59,7 +59,7 @@ const categoryModule = {
     getCategory(state) {
       return state.category;
     },
-    getCurrent(state) {
+    getCurrentCategory(state) {
       return state.current;
     },
   },

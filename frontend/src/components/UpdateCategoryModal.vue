@@ -15,7 +15,7 @@
       >
         <a-input
           type="text"
-          v-model="getCurrent.name"
+          v-model="getCurrentCategory.name"
           placeholder="name"
         />
       </a-form-model-item>
@@ -27,7 +27,7 @@
       >
         <a-textarea
           placeholder="Category description here."
-          v-model="getCurrent.description"
+          v-model="getCurrentCategory.description"
           :rows="4"
         />
       </a-form-model-item>
@@ -42,7 +42,7 @@
         </a-button>
         <a-button
           type="danger"
-          @click="() => setCurrent(null)"
+          @click="() => setCurrentCategory(null)"
         >
           Cancel
         </a-button>
@@ -58,7 +58,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex';
 export default {
   computed: {
     ...mapGetters('categoryModule', [
-      'getCurrent',
+      'getCurrentCategory',
     ]),
   },
   data() {
@@ -69,14 +69,14 @@ export default {
   },
   methods: {
     ...mapMutations('categoryModule', [
-      'setCurrent',
+      'setCurrentCategory',
     ]),
     ...mapActions('categoryModule', [
       'updateCategory',
     ]),
     onSubmit() {
-      this.updateCategory(this.getCurrent);
-      this.setCurrent(null);
+      this.updateCategory(this.getCurrentCategory);
+      this.setCurrentCategory(null);
     },
   },
 };

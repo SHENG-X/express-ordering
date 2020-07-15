@@ -11,7 +11,7 @@
         <div class="button-container">
           <a-button
             type="primary"
-            @click="() => setCurrent(item)"
+            @click="() => setCurrentCategory(item)"
           >
             Edit
           </a-button>
@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     ...mapMutations('categoryModule', [
-      'setCurrent',
+      'setCurrentCategory',
     ]),
     ...mapActions('categoryModule', [
       'deleteCategory',
