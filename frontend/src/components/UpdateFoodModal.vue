@@ -13,7 +13,7 @@
       >
         <a-input
           type="text"
-          v-model="food.name"
+          v-model="getCurrentFood.name"
           placeholder="name"
         />
       </a-form-model-item>
@@ -25,7 +25,7 @@
       >
         <a-textarea
           placeholder="Food description here."
-          v-model="food.description"
+          v-model="getCurrentFood.description"
           :rows="4"
         />
       </a-form-model-item>
@@ -39,7 +39,7 @@
           :default-value="0.00"
           :formatter="value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
           :parser="value => value.replace(/\$\s?|(,*)/g, '')"
-          v-model="food.price"
+          v-model="getCurrentFood.price"
         />
       </a-form-model-item>
 
@@ -82,7 +82,7 @@
         </a-button>
         <a-button
           type="danger"
-          @click="closeModal"
+          @click="() => setCurrentFood(null)"
         >
           Cancel
         </a-button>
@@ -93,40 +93,43 @@
 </template>
 
 <script>
+import { mapActions, mapMutations, mapGetters } from 'vuex';
 import getBase64 from '@/util';
-import { updateFood } from '@/services/foodService';
 
 export default {
-  props: {
-    closeModal: {
-      type: Function,
-      default: () => {},
-    },
-    food: {
-      type: Object,
-      required: true,
-    },
-  },
   data() {
     return {
       labelCol: { span: 4 },
       wrapperCol: { span: 14 },
       previewVisible: false,
       previewImage: '',
-      fileList: [
-        {
-          uid: '-1',
-          name: this.food.image,
-          status: 'done',
-          url: `http://localhost:8081/assets/${this.food.image}`,
-        },
-      ],
     };
   },
+  computed: {
+    ...mapGetters([
+      'getCurrentFood',
+    ]),
+    fileList() {
+      return [
+        {
+          uid: '-1',
+          name: this.getCurrentFood.image,
+          status: 'done',
+          url: `http://localhost:8081/assets/${this.getCurrentFood.image}`,
+        },
+      ];
+    },
+  },
   methods: {
-    async onSubmit() {
-      await updateFood(this.food);
-      this.closeModal();
+    ...mapMutations([
+      'setCurrentFood',
+    ]),
+    ...mapActions([
+      'updateFood',
+    ]),
+    onSubmit() {
+      this.updateFood(this.getCurrentFood);
+      this.setCurrentFood(null);
     },
     handleCancel() {
       this.previewVisible = false;
@@ -141,7 +144,7 @@ export default {
     handleChange({ fileList }) {
       this.fileList = fileList;
       if (fileList[0].status === 'done') {
-        this.food.image = fileList[0].response;
+        this.getCurrentFood.image = fileList[0].response;
       }
     },
   },
