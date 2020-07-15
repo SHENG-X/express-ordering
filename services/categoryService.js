@@ -55,7 +55,7 @@ const deleteCategory = (req, res) => {
     if (error) {
       return res.status(500).json(error);
     }
-    res.status(404).json(req.body._id);
+    res.status(204).json(req.body._id);
   });
 }
 
