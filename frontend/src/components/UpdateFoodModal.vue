@@ -45,6 +45,26 @@
 
       <a-form-model-item
         has-feedback
+        :label="'Category'"
+        prop="category"
+      >
+        <a-select
+          default-value=""
+          style="width: 120px"
+          v-model="getCurrentFood.category"
+        >
+          <a-select-option
+            v-for="category in  getCategory"
+            :value="category._id"
+            :key="category._id"
+          >
+            {{ category.name }}
+          </a-select-option>
+        </a-select>
+      </a-form-model-item>
+
+      <a-form-model-item
+        has-feedback
         :label="'Picture'"
         prop="description"
         class="uploader-row"
@@ -108,6 +128,7 @@ export default {
   computed: {
     ...mapGetters([
       'getCurrentFood',
+      'getCategory',
     ]),
     fileList() {
       return [
