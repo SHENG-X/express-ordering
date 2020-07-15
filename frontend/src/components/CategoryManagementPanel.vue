@@ -13,15 +13,13 @@
     <div class="content">
       <div
         class="category-list"
-        v-if="!createVisible && !updateVisible"
+        v-if="!createVisible && !getCurrent"
       >
-        <category-list
-          :setCurrentCategory="setCurrentCategory"
-        />
+        <category-list/>
       </div>
       <div
         class="create-category"
-        v-else-if="createVisible && !updateVisible"
+        v-else-if="createVisible && !getCurrent"
       >
         <create-category-modal
           :closeModal="() => {createVisible = !createVisible}"
@@ -29,18 +27,16 @@
       </div>
       <div
         class="update-category"
-        v-else-if="!createVisible && updateVisible"
+        v-else-if="!createVisible && getCurrent"
       >
-        <update-category-modal
-          :category="currentCategory"
-          :closeModal="() => {updateVisible = !updateVisible}"
-        />
+        <update-category-modal/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import CategoryList from '@/components/CategoryList.vue';
 import CreateCategoryModal from './CreateCategoryModal.vue';
 import UpdateCategoryModal from './UpdateCategoryModal.vue';
@@ -54,15 +50,12 @@ export default {
   data() {
     return {
       createVisible: false,
-      updateVisible: false,
-      currentCategory: null,
     };
   },
-  methods: {
-    setCurrentCategory(category) {
-      this.currentCategory = category;
-      this.updateVisible = true;
-    },
+  computed: {
+    ...mapGetters('categoryModule', [
+      'getCurrent',
+    ]),
   },
 };
 </script>

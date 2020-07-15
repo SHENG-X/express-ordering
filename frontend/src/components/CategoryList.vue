@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <a-list bordered :data-source="categories">
+    <a-list bordered :data-source="getCategory">
       <a-list-item slot="renderItem" slot-scope="item">
         <div class="name">
           {{ item.name }}
@@ -11,13 +11,13 @@
         <div class="button-container">
           <a-button
             type="primary"
-            @click="() => setCurrentCategory(item)"
+            @click="() => setCurrent(item)"
           >
             Edit
           </a-button>
           <a-button
             type="danger"
-            @click="() => deleteSingleCategory(item)"
+            @click="() => deleteCategory(item)"
           >
             Delete
           </a-button>
@@ -28,34 +28,21 @@
 </template>
 
 <script>
-import { getCategory, deleteCategory } from '@/services/categoryService';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 export default {
-  props: {
-    setCurrentCategory: {
-      type: Function,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      categories: [],
-    };
-  },
-  async created() {
-    const categories = await getCategory();
-    this.categories = categories.data;
+  computed: {
+    ...mapGetters('categoryModule', [
+      'getCategory',
+    ]),
   },
   methods: {
-    async deleteSingleCategory(category) {
-      try {
-        await deleteCategory(category);
-      } catch (error) {
-        if (error.response.status === 404) {
-          this.categories = this.categories.filter((c) => c._id !== error.response.data);
-        }
-      }
-    },
+    ...mapMutations('categoryModule', [
+      'setCurrent',
+    ]),
+    ...mapActions('categoryModule', [
+      'deleteCategory',
+    ]),
   },
 };
 </script>

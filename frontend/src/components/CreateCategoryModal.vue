@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { createCategory } from '@/services/categoryService';
+import { mapActions } from 'vuex';
 
 export default {
   props: {
@@ -71,8 +71,11 @@ export default {
     };
   },
   methods: {
+    ...mapActions('categoryModule', [
+      'createCategory',
+    ]),
     async onSubmit() {
-      await createCategory(this.category);
+      this.createCategory(this.category);
       this.closeModal();
     },
     handleCancel() {

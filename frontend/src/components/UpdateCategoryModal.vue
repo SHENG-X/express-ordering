@@ -1,5 +1,7 @@
 <template>
-  <div class="create-category-modal">
+  <div
+    class="create-category-modal"
+  >
     <a-form-model
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
@@ -13,7 +15,7 @@
       >
         <a-input
           type="text"
-          v-model="category.name"
+          v-model="getCurrent.name"
           placeholder="name"
         />
       </a-form-model-item>
@@ -25,7 +27,7 @@
       >
         <a-textarea
           placeholder="Category description here."
-          v-model="category.description"
+          v-model="getCurrent.description"
           :rows="4"
         />
       </a-form-model-item>
@@ -40,7 +42,7 @@
         </a-button>
         <a-button
           type="danger"
-          @click="closeModal"
+          @click="() => setCurrent(null)"
         >
           Cancel
         </a-button>
@@ -51,18 +53,13 @@
 </template>
 
 <script>
-import { updateCategory } from '@/services/categoryService';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 export default {
-  props: {
-    closeModal: {
-      type: Function,
-      default: () => {},
-    },
-    category: {
-      type: Object,
-      required: true,
-    },
+  computed: {
+    ...mapGetters('categoryModule', [
+      'getCurrent',
+    ]),
   },
   data() {
     return {
@@ -71,12 +68,15 @@ export default {
     };
   },
   methods: {
-    async onSubmit() {
-      await updateCategory(this.category);
-      this.closeModal();
-    },
-    handleCancel() {
-      this.previewVisible = false;
+    ...mapMutations('categoryModule', [
+      'setCurrent',
+    ]),
+    ...mapActions('categoryModule', [
+      'updateCategory',
+    ]),
+    onSubmit() {
+      this.updateCategory(this.getCurrent);
+      this.setCurrent(null);
     },
   },
 };
