@@ -18,7 +18,7 @@ export default new Vuex.Store({
   actions: {
     loadFWithC({ dispatch }) {
       dispatch('loadFood');
-      dispatch('categoryModule/loadCategory');
+      dispatch('loadCategory');
     },
   },
   modules: {

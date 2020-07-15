@@ -57,7 +57,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters('categoryModule', [
+    ...mapGetters([
       'getCurrentCategory',
     ]),
   },
@@ -68,10 +68,10 @@ export default {
     };
   },
   methods: {
-    ...mapMutations('categoryModule', [
+    ...mapMutations([
       'setCurrentCategory',
     ]),
-    ...mapActions('categoryModule', [
+    ...mapActions([
       'updateCategory',
     ]),
     onSubmit() {

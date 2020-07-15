@@ -71,7 +71,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions('categoryModule', [
+    ...mapActions([
       'createCategory',
     ]),
     async onSubmit() {

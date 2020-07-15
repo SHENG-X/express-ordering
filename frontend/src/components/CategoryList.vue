@@ -32,15 +32,15 @@ import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters('categoryModule', [
+    ...mapGetters([
       'getCategory',
     ]),
   },
   methods: {
-    ...mapMutations('categoryModule', [
+    ...mapMutations([
       'setCurrentCategory',
     ]),
-    ...mapActions('categoryModule', [
+    ...mapActions([
       'deleteCategory',
     ]),
   },

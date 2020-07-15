@@ -6,7 +6,6 @@ import {
 } from '@/services/categoryService';
 
 const categoryModule = {
-  namespaced: true,
   state: () => ({
     category: [],
     current: null,
