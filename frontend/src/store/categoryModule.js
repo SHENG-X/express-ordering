@@ -7,7 +7,9 @@ import {
 
 const categoryModule = {
   state: () => ({
+    // a list of categories that were created
     category: [],
+    // current selected category
     current: null,
   }),
   mutations: {
