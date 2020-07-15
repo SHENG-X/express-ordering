@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 import FoodManagementPanel from '@/components/FoodManagementPanel.vue';
 import CategoryManagementPanel from '@/components/CategoryManagementPanel.vue';
 
@@ -39,6 +41,9 @@ export default {
     };
   },
   methods: {
+    ...mapActions([
+      'loadFWithC',
+    ]),
     handleClick(e) {
       switch (e.key) {
         case '1':
@@ -51,6 +56,9 @@ export default {
           this.panelName = 'FoodManagementPanel';
       }
     },
+  },
+  created() {
+    this.loadFWithC();
   },
 };
 </script>
