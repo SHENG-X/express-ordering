@@ -1,6 +1,6 @@
 <template>
   <div
-    class="create-category-modal"
+    class="update-category-modal"
   >
     <a-form-model
       :label-col="labelCol"
@@ -83,7 +83,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.create-category-modal {
+.update-category-modal {
   width: 100%;
   height: 100%;
   .ant-input-number {
