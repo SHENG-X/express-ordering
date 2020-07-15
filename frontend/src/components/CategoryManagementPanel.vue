@@ -85,9 +85,10 @@ export default {
       overflow: auto;
     }
     .create-category, .update-category {
-      top: -56px;
+      margin-top: -56px;
       padding-top: 56px;
       height: calc(100% + 56px);
+      background: white;
     }
   }
 }

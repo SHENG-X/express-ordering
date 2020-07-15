@@ -13,15 +13,13 @@
     <div class="content">
       <div
         class="food-list"
-        v-if="!createVisible && !updateVisible"
+        v-if="!createVisible && !getCurrentFood"
       >
-        <food-list
-          :setCurrentFood="setCurrentFood"
-        />
+        <food-list/>
       </div>
       <div
         class="create-food"
-        v-else-if="createVisible && !updateVisible"
+        v-else-if="createVisible && !getCurrentFood"
       >
         <create-food-modal
           :closeModal="() => {createVisible = !createVisible}"
@@ -29,18 +27,17 @@
       </div>
       <div
         class="update-food"
-        v-else-if="!createVisible && updateVisible"
+        v-else-if="!createVisible && getCurrentFood"
       >
-        <update-food-modal
-          :food="currentFood"
-          :closeModal="() => {updateVisible = !updateVisible}"
-        />
+        <update-food-modal/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 import FoodList from './FoodList.vue';
 import CreateFoodModal from './CreateFoodModal.vue';
 import UpdateFoodModal from './UpdateFoodModal.vue';
@@ -54,15 +51,12 @@ export default {
   data() {
     return {
       createVisible: false,
-      updateVisible: false,
-      currentFood: null,
     };
   },
-  methods: {
-    setCurrentFood(food) {
-      this.currentFood = food;
-      this.updateVisible = true;
-    },
+  computed: {
+    ...mapGetters([
+      'getCurrentFood',
+    ]),
   },
 };
 </script>
@@ -92,9 +86,10 @@ export default {
       overflow: auto;
     }
     .create-food, .update-food {
-      top: -56px;
+      margin-top: -56px;
       padding-top: 56px;
       height: calc(100% + 56px);
+      background: white;
     }
   }
 }

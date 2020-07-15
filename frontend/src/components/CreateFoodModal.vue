@@ -92,8 +92,9 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 import getBase64 from '@/util';
-import { createFood } from '@/services/foodService';
 
 export default {
   props: {
@@ -118,8 +119,11 @@ export default {
     };
   },
   methods: {
+    ...mapActions([
+      'createFood',
+    ]),
     async onSubmit() {
-      await createFood(this.food);
+      this.createFood(this.food);
       this.closeModal();
     },
     handleCancel() {

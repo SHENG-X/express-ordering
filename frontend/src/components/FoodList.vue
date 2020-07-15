@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <a-list bordered :data-source="food">
+    <a-list bordered :data-source="getFood">
       <a-list-item slot="renderItem" slot-scope="item">
         <div class="image-container">
           <img
@@ -26,7 +26,7 @@
           </a-button>
           <a-button
             type="danger"
-            @click="() => deleteSingleFood(item)"
+            @click="() => deleteFood(item)"
           >
             Delete
           </a-button>
@@ -37,39 +37,24 @@
 </template>
 
 <script>
-import { getFood, deleteFood } from '@/services/foodService';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 export default {
-  props: {
-    setCurrentFood: {
-      type: Function,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      food: [],
-    };
-  },
   computed: {
+    ...mapGetters([
+      'getFood',
+    ]),
     imageBaseURL() {
       return process.env.VUE_APP_API_END_POINT;
     },
   },
-  async created() {
-    const food = await getFood();
-    this.food = food.data;
-  },
   methods: {
-    async deleteSingleFood(food) {
-      try {
-        await deleteFood(food);
-      } catch (error) {
-        if (error.response.status === 404) {
-          this.food = this.food.filter((f) => f._id !== error.response.data);
-        }
-      }
-    },
+    ...mapMutations([
+      'setCurrentFood',
+    ]),
+    ...mapActions([
+      'deleteFood',
+    ]),
   },
 };
 </script>
