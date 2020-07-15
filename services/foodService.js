@@ -69,7 +69,7 @@ const deleteFood = (req, res) => {
       // on whether the image was removed on the server side.
       console.log(error);
     }
-    res.status(404).json(req.body._id);
+    res.status(204).json(req.body._id);
   });
 }
 
