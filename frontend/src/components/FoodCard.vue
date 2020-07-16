@@ -43,7 +43,11 @@ export default {
   --marginWidth: 12px;
   width: 445px;
   max-width: calc(100% - var(--marginWidth) * 2);
-  margin: var(--marginWidth) ;
+  margin: var(--marginWidth);
+  &:hover {
+    cursor: pointer;
+    border: 1px solid #003293;
+  }
    ::v-deep.ant-card-body {
     padding: 0;
     .container {
