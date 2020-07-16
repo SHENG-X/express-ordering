@@ -9,7 +9,7 @@
           {{ food.description }}
         </div>
         <div class="price">
-          {{ food.price }}
+          ${{ food.price }}
         </div>
       </div>
       <div
