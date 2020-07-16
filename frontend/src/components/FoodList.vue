@@ -4,6 +4,7 @@
       <a-list-item slot="renderItem" slot-scope="item">
         <div class="image-container">
           <img
+            v-if="item.image"
             :src="`${imageBaseURL}/assets/${item.image}`"
             width="60px" height="60px"
           />

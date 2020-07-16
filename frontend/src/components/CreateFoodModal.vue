@@ -45,6 +45,26 @@
 
       <a-form-model-item
         has-feedback
+        :label="'Category'"
+        prop="category"
+      >
+        <a-select
+          default-value=""
+          style="width: 120px"
+          v-model="food.category"
+        >
+          <a-select-option
+            v-for="category in  getCategory"
+            :value="category._id"
+            :key="category._id"
+          >
+            {{ category.name }}
+          </a-select-option>
+        </a-select>
+      </a-form-model-item>
+
+      <a-form-model-item
+        has-feedback
         :label="'Picture'"
         prop="description"
         class="uploader-row"
@@ -92,7 +112,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 import getBase64 from '@/util';
 
@@ -114,9 +134,15 @@ export default {
         image: '',
         name: '',
         description: '',
+        category: '',
         price: '',
       },
     };
+  },
+  computed: {
+    ...mapGetters([
+      'getCategory',
+    ]),
   },
   methods: {
     ...mapActions([
