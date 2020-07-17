@@ -24,6 +24,9 @@ const categoryModule = {
       // append the item to the end of the order
       state.order.splice(state.order.length, 0, item);
     },
+    removeOrderItem(state, item) {
+      state.order = state.order.filter((ord) => ord._id !== item._id);
+    },
   },
   actions: {
     async loadOrder({ commit }) {
