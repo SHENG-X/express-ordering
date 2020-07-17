@@ -61,7 +61,7 @@ const placeOrder = (req, res) => {
 const cancelOrder = (req, res) => {
   // cancel order take an order id and set the order's
   // status to canceled
-  orderModel.findById(req.query._id, (error, order) => {
+  orderModel.findById(req.body._id, (error, order) => {
     if (error) {
       return res.status(500).json(error);
     }
