@@ -9,7 +9,9 @@ import {
 const categoryModule = {
   state: () => ({
     // order is a list of order items
-    order: [],
+    order: {
+      items: [],
+    },
     // order list is a list of order (dashboard only)
     orderList: [],
   }),
@@ -22,10 +24,10 @@ const categoryModule = {
     },
     addOrderItem(state, item) {
       // append the item to the end of the order
-      state.order.splice(state.order.length, 0, item);
+      state.order.items.splice(state.order.length, 0, item);
     },
     removeOrderItem(state, item) {
-      state.order = state.order.filter((ord) => ord._id !== item._id);
+      state.order.items = state.order.items.filter((ordItem) => ordItem.food._id !== item.food._id);
     },
   },
   actions: {
@@ -34,11 +36,11 @@ const categoryModule = {
       const res = await getOrder();
       commit('setOrderList', res.data);
     },
-    async placeOrder({ state }) {
-      const res = await placeOrder({ items: [...state.order] });
-    },
-    async cancelOrder({ state }) {
-      const res = await cancelOrder(state.order);
+    async placeOrder({ state, commit }) {
+      const res = await placeOrder(state.order);
+      if (res.status === 201) {
+        commit('setOrder', res.data);
+      }
     },
     // async cancelOrder({ state }) {
     //   const res = await cancelOrder(state.order);
@@ -47,6 +49,9 @@ const categoryModule = {
   getters: {
     getOrder(state) {
       return state.order;
+    },
+    getOrderItems(state) {
+      return state.order.items;
     },
     getOrderList(state) {
       return state.orderList;
