@@ -14,7 +14,7 @@
     >
       <template slot="footer">
         <a-button key="increase" @click="() => handleFoodCount(1)">
-          Increase
+          +
         </a-button>
          <a-input-number
           :min="1"
@@ -23,7 +23,7 @@
           v-model="foodCount"
         />
         <a-button key="decrease" @click="() => handleFoodCount(-1)">
-          Decrease
+          -
         </a-button>
         <a-button key="addCart" type="primary" @click="() => addToOrder(currentFood)">
           <div>Add to cart - ${{ (currentFood.price * foodCount).toFixed(2) }}</div>
@@ -43,7 +43,11 @@
           <div>Extra instructions</div>
           <div>List any special requests</div>
         </div>
-        <a-textarea placeholder="e.g. allergies, extra spicy, etc." :rows="4" />
+        <a-textarea
+          v-model="extra"
+          placeholder="e.g. allergies, extra spicy, etc."
+          :rows="4"
+        />
       </div>
     </a-modal>
   </div>
@@ -86,6 +90,7 @@ export default {
       if (this.currentFood && food._id !== this.currentFood._id) {
         // reset food count on openning a new food item
         this.foodCount = 1;
+        this.extra = '';
       }
       this.currentFood = food;
       this.visible = true;
@@ -95,7 +100,11 @@ export default {
       this.foodCount += base * 1;
     },
     addToOrder(food) {
-      const orderItem = { ...food, count: this.foodCount, extra: this.extra };
+      const orderItem = {
+        ...food,
+        count: this.foodCount,
+        extra: this.extra,
+      };
       this.addOrderItem(orderItem);
       this.visible = false;
     },
