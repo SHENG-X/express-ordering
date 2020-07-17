@@ -101,7 +101,7 @@ export default {
     },
     addToOrder(food) {
       const orderItem = {
-        ...food,
+        food,
         count: this.foodCount,
         extra: this.extra,
       };
