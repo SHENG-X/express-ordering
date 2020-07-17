@@ -1,26 +1,23 @@
 const mongoose = require('mongoose');
 
-const orderItemSchema = new mongoose.Schema({
-  count: {
-    type: Number,
-    required: true,
-  },
-  extra: {
-    type: String,
-    default: '',
-  },
-  fid: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Food'
-  }
-});
-
 const orderSchema = new mongoose.Schema(
   {
-    items: {
-      type: [orderItemSchema],
-      required: true,
-    },
+    items: [
+      {
+        count: {
+          type: Number,
+          required: true,
+        },
+        extra: {
+          type: String,
+          default: '',
+        },
+        food: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Food'
+        }
+      }
+    ],
     status: {
       type: String,
       default: 'PENDING', //PENDING, CANCELED, PROCESSING, SHIPPED, COMPLETE
