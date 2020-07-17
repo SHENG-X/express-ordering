@@ -22,7 +22,7 @@ const categoryModule = {
     },
     addOrderItem(state, item) {
       // append the item to the end of the order
-      state.order.splice((state.order.length - 1), 0, item);
+      state.order.splice(state.order.length, 0, item);
     },
   },
   actions: {
