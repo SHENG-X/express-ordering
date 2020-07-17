@@ -9,6 +9,11 @@
       <template slot="extra">
         <router-link to="/">{{ $t('pages.home.label') }}</router-link>
         <router-link
+          to="/cart"
+        >
+          {{ 'Shopping Cart' }}
+        </router-link>
+        <router-link
           v-if="$store.state.user && $store.state.user.admin"
           to="/dashboard"
         >
