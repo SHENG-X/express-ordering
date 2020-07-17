@@ -54,7 +54,12 @@ const placeOrder = (req, res) => {
     if (error) {
       return res.status(500).json(error);
     }
-    return res.status(201).json(order);
+    order.populate('items.food').execPopulate((error, order) => {
+      if (error) {
+        return res.status(500).json(error);
+      }
+      return res.status(201).json(order);
+    })
   });
 }
 
