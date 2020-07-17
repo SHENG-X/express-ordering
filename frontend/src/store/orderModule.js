@@ -3,7 +3,7 @@ import {
   placeOrder,
   // updateOrder,
   // deleteOrder,
-  cancelOrder,
+  // cancelOrder,
 } from '@/services/orderService';
 
 const categoryModule = {
@@ -40,6 +40,9 @@ const categoryModule = {
     async cancelOrder({ state }) {
       const res = await cancelOrder(state.order);
     },
+    // async cancelOrder({ state }) {
+    //   const res = await cancelOrder(state.order);
+    // },
   },
   getters: {
     getOrder(state) {
