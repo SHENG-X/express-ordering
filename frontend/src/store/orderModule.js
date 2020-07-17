@@ -35,12 +35,10 @@ const categoryModule = {
       commit('setOrderList', res.data);
     },
     async placeOrder({ state }) {
-      const res = await placeOrder(state.order);
-      return res;
+      const res = await placeOrder({ items: [...state.order] });
     },
     async cancelOrder({ state }) {
       const res = await cancelOrder(state.order);
-      return res;
     },
   },
   getters: {
