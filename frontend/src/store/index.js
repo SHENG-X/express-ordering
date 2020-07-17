@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 
 import foodModule from './foodModule';
 import categoryModule from './categoryModule';
+import orderModule from './orderModule';
 
 Vue.use(Vuex);
 
@@ -24,5 +25,6 @@ export default new Vuex.Store({
   modules: {
     foodModule,
     categoryModule,
+    orderModule,
   },
 });
