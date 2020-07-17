@@ -10,12 +10,11 @@
     </div>
     <a-modal
       v-model="visible"
-      @ok="handleOk"
       v-if="currentFood"
     >
       <template slot="footer">
         <a-button key="increase" @click="() => handleFoodCount(1)">
-          Increase
+          +
         </a-button>
          <a-input-number
           :min="1"
@@ -24,9 +23,9 @@
           v-model="foodCount"
         />
         <a-button key="decrease" @click="() => handleFoodCount(-1)">
-          Decrease
+          -
         </a-button>
-        <a-button key="addCart" type="primary" @click="handleOk">
+        <a-button key="addCart" type="primary" @click="() => addToOrder(currentFood)">
           <div>Add to cart - ${{ (currentFood.price * foodCount).toFixed(2) }}</div>
         </a-button>
       </template>
@@ -44,14 +43,18 @@
           <div>Extra instructions</div>
           <div>List any special requests</div>
         </div>
-        <a-textarea placeholder="e.g. allergies, extra spicy, etc." :rows="4" />
+        <a-textarea
+          v-model="extra"
+          placeholder="e.g. allergies, extra spicy, etc."
+          :rows="4"
+        />
       </div>
     </a-modal>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 import FoodCard from '@/components/FoodCard.vue';
 
@@ -65,6 +68,7 @@ export default {
       visible: false,
       currentFood: null,
       foodCount: 1,
+      extra: '',
     };
   },
   computed: {
@@ -76,6 +80,9 @@ export default {
     this.loadFWithC();
   },
   methods: {
+    ...mapMutations([
+      'addOrderItem',
+    ]),
     ...mapActions([
       'loadFWithC',
     ]),
@@ -83,6 +90,7 @@ export default {
       if (this.currentFood && food._id !== this.currentFood._id) {
         // reset food count on openning a new food item
         this.foodCount = 1;
+        this.extra = '';
       }
       this.currentFood = food;
       this.visible = true;
@@ -91,7 +99,14 @@ export default {
       if (this.foodCount === 1 && base < 1) return;
       this.foodCount += base * 1;
     },
-    handleOk() {
+    addToOrder(food) {
+      const orderItem = {
+        food,
+        count: this.foodCount,
+        extra: this.extra,
+      };
+      this.addOrderItem(orderItem);
+      this.visible = false;
     },
   },
 };
