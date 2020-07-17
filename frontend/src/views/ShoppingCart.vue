@@ -1,55 +1,61 @@
 <template>
-  <div
-  class="container"
-    v-if="getOrder.length"
-  >
-    <div
-      class="order-item"
-      v-for="item in getOrder"
-      :key="item._id"
-    >
-      <div>
-        <a-button key="increase" @click="() => handleFoodCount(1, item)">
-          +
-        </a-button>
-         <a-input-number
-          :min="1"
-          :max="1000"
-          :default-value="1"
-          v-model="item.count"
-        />
-        <a-button key="decrease" @click="() => handleFoodCount(-1, item)">
-          -
-        </a-button>
-      </div>
-      <div class="item-detail">
-        <div class="heading">
-          <div>
-            {{ item.name }}
-          </div>
-          <div>
-            ${{ (item.count * item.price).toFixed(2) }}
-          </div>
-        </div>
-        <div class="body">
-          {{ item.extra }}
-        </div>
-      </div>
+  <div>
+    <div v-if="getOrder._id">
+      Your order is placed.
+      Tracking number: {{ getOrder._id }}
     </div>
-    <div class="controller">
-      <a-button
-        type="danger"
-        @click="() => setOrder([])"
+    <div
+      class="container"
+      v-else-if="getOrderItems.length && !getOrder._id"
+    >
+      <div
+        class="order-item"
+        v-for="item in getOrderItems"
+        :key="item.food._id"
       >
-        Cancel
-      </a-button>
-      <a-button
-        class="place-order"
-        type="primary"
-        @click="placeOrder"
-      >
-        Place Order
-      </a-button>
+        <div>
+          <a-button key="increase" @click="() => handleFoodCount(1, item)">
+            +
+          </a-button>
+          <a-input-number
+            :min="1"
+            :max="1000"
+            :default-value="1"
+            v-model="item.count"
+          />
+          <a-button key="decrease" @click="() => handleFoodCount(-1, item)">
+            -
+          </a-button>
+        </div>
+        <div class="item-detail">
+          <div class="heading">
+            <div>
+              {{ item.food.name }}
+            </div>
+            <div>
+              ${{ (item.count * item.food.price).toFixed(2) }}
+            </div>
+          </div>
+          <div class="body">
+            {{ item.extra }}
+          </div>
+        </div>
+      </div>
+      <div class="controller">
+        <a-button
+          type="danger"
+          @click="() => setOrder([])"
+        >
+          Cancel
+        </a-button>
+        <a-button
+          class="place-order"
+          type="primary"
+          @click="placeOrder"
+        >
+          Place Order
+        </a-button>
+      </div>
     </div>
   </div>
 </template>
@@ -61,6 +67,7 @@ export default {
   computed: {
     ...mapGetters([
       'getOrder',
+      'getOrderItems',
     ]),
   },
   methods: {
