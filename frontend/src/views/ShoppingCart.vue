@@ -41,6 +41,7 @@
           </div>
         </div>
       </div>
+      <div ref="card"/>
       <div class="controller">
         <a-button
           type="danger"
@@ -51,9 +52,9 @@
         <a-button
           class="place-order"
           type="primary"
-          @click="placeOrder"
+          @click="handlePayment"
         >
-          Place Order
+          Pay
         </a-button>
       </div>
     </div>
@@ -62,6 +63,29 @@
 
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex';
+
+import { payOrder } from '@/services/paymentService';
+import { placeOrder } from '@/services/orderService';
+
+const stripe = window.Stripe(process.env.VUE_APP_STRIPE_PK);
+/* ------- Set up Stripe Elements to use in checkout form ------- */
+const elements = stripe.elements();
+const style = {
+  base: {
+    color: '#32325d',
+    fontFamily: '\'Helvetica Neue\', Helvetica, sans-serif',
+    fontSmoothing: 'antialiased',
+    fontSize: '16px',
+    '::placeholder': {
+      color: '#aab7c4',
+    },
+  },
+  invalid: {
+    color: '#fa755a',
+    iconColor: '#fa755a',
+  },
+};
+const card = elements.create('card', style);
 
 export default {
   computed: {
@@ -78,6 +102,54 @@ export default {
     ...mapActions([
       'placeOrder',
     ]),
+    handlePayment() {
+      const orderData = {
+        order: this.getOrder,
+        currency: 'cad',
+      };
+      stripe
+        .createPaymentMethod('card', card)
+        .then((result) => {
+          // Access the token with result.token
+          if (result.error) {
+            console.log('Payment error', result.error.message);
+          } else {
+            payOrder({ ...orderData, paymentMethodId: result.paymentMethod.id })
+              .then((response) => {
+                if (response.data.error) {
+                  console.log('response.error', response.data.error);
+                } else if (response.data.requiresAction) {
+                  console.log('response.requiresAction', response.data.requiresAction);
+                  stripe
+                    .handleCardAction(response.data.clientSecret)
+                    .then((data) => {
+                      if (data.error) {
+                        console.log('Your card was not authenticated, please try again');
+                      } else if (data.paymentIntent.status === 'requires_confirmation') {
+                        payOrder({ ...orderData, paymentIntentId: data.paymentIntent.id })
+                          .then((rslt) => {
+                            if (rslt.data.error) {
+                              console.log('result.error', rslt.error);
+                            } else {
+                              stripe.retrievePaymentIntent(rslt.data.clientSecret)
+                                .then((paymentResult) => {
+                                  const { paymentIntent } = paymentResult;
+                                  placeOrder({ ...orderData.order, payment: paymentIntent });
+                                  const paymentItentJson = JSON.stringify(paymentIntent, null, 2);
+                                  console.log('payment success', paymentItentJson);
+                                });
+                            }
+                          });
+                      }
+                    });
+                } else {
+                  // TODO: handle error
+                  console.log('order complete');
+                }
+              });
+          }
+        });
+    },
     handleFoodCount(base, item) {
       if (item.count === 1 && base < 1) {
         // remove order item if it's count less than 1
@@ -86,6 +158,9 @@ export default {
       }
       item.count += base * 1;
     },
+  },
+  mounted() {
+    card.mount(this.$refs.card);
   },
 };
 </script>
@@ -118,5 +193,8 @@ export default {
       margin-left: 12px;
     }
   }
+}
+.StripeElement {
+  height: 36px;
 }
 </style>

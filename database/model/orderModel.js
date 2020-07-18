@@ -15,9 +15,13 @@ const orderSchema = new mongoose.Schema(
         food: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Food'
-        }
+        },
       }
     ],
+    payment: {
+      type: Object,
+      required: true,
+    },
     status: {
       type: String,
       default: 'PENDING', //PENDING, CANCELED, PROCESSING, SHIPPED, COMPLETE
