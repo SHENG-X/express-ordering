@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const orderModel = require('../database/model/orderModel');
+const paymentModel = require('../database/model/paymentModel');
 
 const getOrder = (req, res) => {
   if (Object.entries(req.query).length) {
@@ -49,17 +50,33 @@ const deleteOrder = (req, res) => {
 
 const placeOrder = (req, res) => {
   // create an order
-  const order = new orderModel({ ...req.body });
-  order.save((error, order) => {
-    if (error) {
-      return res.status(500).json(error);
+  paymentModel.findOne({ clientSecret: req.body.payment.client_secret }, (error, payment) => {
+    if (error || payment.complete) {
+      return res.status(402).json('payment required');
     }
-    order.populate('items.food').execPopulate((error, order) => {
+    // payment is posted by order is not placed yet
+    // place order here
+    const order = new orderModel({ ...req.body });
+    order.status = 'PAID';
+    order.save((error, order) => {
       if (error) {
         return res.status(500).json(error);
       }
-      return res.status(201).json(order);
-    })
+      // set payment complete
+      payment.complete = true;
+      payment.save((error, pmt) => {
+        if (error) {
+          return res.status(500).json(error);
+        }
+        // populate food and send response back to client
+        order.populate('items.food').execPopulate((error, order) => {
+          if (error) {
+            return res.status(500).json(error);
+          }
+          return res.status(201).json(order);
+        });
+      });
+    });
   });
 }
 
