@@ -12,6 +12,7 @@ const food = require('./router/food');
 const category = require('./router/category');
 const picture = require('./router/picture');
 const order = require('./router/order');
+const payment = require('./router/payment');
 
 const port = process.env.NODE_ENV === 'development-host' ? 
              process.env.HOST_PORT : process.env.PORT;
@@ -40,6 +41,9 @@ app.use('/picture', picture);
 
 // api end point for order service
 app.use('/order', order);
+
+// api end point for payment service
+app.use('/pay', payment);
 
 const options = {
   useNewUrlParser: true,
